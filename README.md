@@ -118,6 +118,23 @@ vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
     { desc = "Open harpoon window" })
 ```
 
+If you want to be able to live grep in your current harpoon files, you can use the following;
+```lua
+local builtin = require("telescope.builtin")
+local function telescope_live_grep(harpoon_files)
+    local file_paths = {}
+    for _, item in ipairs(harpoon_files.items) do
+        table.insert(file_paths, item.value)
+    end
+    builtin.live_grep({
+        search_dirs = file_paths,
+    })
+end
+
+vim.keymap.set("n", "<leader>sh", function() telescope_live_grep(harpoon:list()) end,
+    { desc = "Live grep harpoon files" })
+```
+
 ## ⇁ API
 You can define custom behavior of a harpoon list by providing your own calls.
 
